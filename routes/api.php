@@ -1,9 +1,10 @@
 <?php
 
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\ProductController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AddressController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\IpnHandlerController;
 
 
 Route::group(['prefix' => 'v1'], function () {
@@ -18,5 +19,15 @@ Route::group(['prefix' => 'v1'], function () {
         Route::get('products', 'index');
         Route::get('products/{id}', 'show');
         Route::delete('products/{id}', 'destroy');
+    });
+    Route::controller(AddressController::class)->group(function () {
+        Route::post('addresses', 'store');
+    });
+    Route::controller(ProductController::class)->group(function () {
+        Route::post('orders', 'store');
+        Route::get('orders', 'index');
+    });
+    Route::controller(IpnHandlerController::class)->group(function () {
+        Route::post('invoice', 'ipnStatus');
     });
 });

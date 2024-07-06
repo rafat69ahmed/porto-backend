@@ -32,13 +32,6 @@ class ProductController extends Controller
                 'message' => $e->getMessage(),
             ], 500);
         }
-        // $products = Product::all();
-        // // $products = Product::paginate(10);
-        // return response()->json([
-        //     'status' => 'success',
-        //     'message' => 'fetched product list successfully',
-        //     'data' => $products,
-        // ]);
     }
 
     /**
@@ -46,18 +39,10 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        // try {
-        //     $request->validate([
-        //         'title' => 'required|string|max:255',
-        //         'description' => 'required|string|max:255',
-        //     ]);
-        // } catch (ValidationException $e) {
-        //     // Handle the failed validation...
-        //     return response()->json($e->errors(), 422);
-        // }
+
         try {
             $validatedData = $request->validate([
-                'title' => 'required|string|max:255',
+                'name' => 'required|string|max:255',
                 'description' => 'required|string|max:255',
                 'category' => 'required|string|max:255',
                 'price' => 'required|numeric',
@@ -66,7 +51,7 @@ class ProductController extends Controller
                 'sku' => 'required|string',
             ]);
             $product = Product::create([
-                'title' => $request->title,
+                'name' => $request->title,
                 'description' => $request->description,
                 'category' => $request->category,
                 'price' => $request->price,
@@ -88,36 +73,6 @@ class ProductController extends Controller
                 'message' => $e->getMessage(),
             ], 500);
         }
-        // $request->validate([
-        //     'title' => 'required|string|max:255',
-        //     'description' => 'required|string|max:255',
-        //     'category' => 'required|string|max:255',
-        //     'price' => 'required|numeric',
-        //     'stock' => 'required|numeric',
-        //     'image' => 'required|string',
-        //     'sku' => 'required|string',
-        // ]);
-
-        // $request->validate([
-        //     'email' => 'required|string|email',
-        //     'password' => 'required|string',
-        // ]);
-
-        // $product = Product::create([
-        //     'title' => $request->title,
-        //     'description' => $request->description,
-        //     'category' => $request->category,
-        //     'price' => $request->price,
-        //     'stock' => $request->stock,
-        //     'image' => $request->image,
-        //     'sku' => $request->sku,
-        // ]);
-
-        // return response()->json([
-        //     'status' => 'success',
-        //     'message' => 'Product created successfully',
-        //     'data' => $product,
-        // ]);
     }
 
     public function show($id)
