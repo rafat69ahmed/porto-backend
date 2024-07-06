@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use Illuminate\Routing\Controller;
+use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
@@ -18,10 +19,16 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $request->validate([
-            'email' => 'required|string|email',
-            'password' => 'required|string',
-        ]);
+
+        try {
+            $validatedData = $request->validate([
+                'email' => 'required|string|email',
+                'password' => 'required|string',
+            ]);
+        } catch (ValidationException $e) {
+            // Handle the failed validation...
+            return response()->json($e->errors(), 422);
+        }
         $credentials = $request->only('email', 'password');
 
         $token = Auth::attempt($credentials);
